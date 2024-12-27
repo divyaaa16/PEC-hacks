@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inclusive Workplace</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-white shadow-md">
+        <nav class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <a href="index.html" class="text-lg font-bold text-orange-500">Inclusive Workplace</a>
+        </nav>
+    </header>
+
+
+    <!-- Company List Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h1 class="text-4xl font-bold text-center mb-8">Companies Committed to Diversity</h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <button onclick="showDetails('google')" class="bg-white p-6 rounded-lg shadow-lg text-left">
+                    <h2 class="text-2xl font-semibold text-blue-600">Google</h2>
+                    <p class="text-gray-700">Empowering people to innovate through diversity.</p>
+                </button>
+                <button onclick="showDetails('providence')" class="bg-white p-6 rounded-lg shadow-lg text-left">
+                    <h2 class="text-2xl font-semibold text-blue-600">Providence</h2>
+                    <p class="text-gray-700">Committed to accessible healthcare for all.</p>
+                </button>
+                <button onclick="showDetails('jpmorgan')" class="bg-white p-6 rounded-lg shadow-lg text-left">
+                    <h2 class="text-2xl font-semibold text-blue-600">JP Morgan</h2>
+                    <p class="text-gray-700">Fostering inclusion in financial services.</p>
+                </button>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Company Details Section -->
+    <section id="detailsSection" class="py-16 bg-gray-200 hidden">
+        <div class="container mx-auto px-4">
+            <div id="companyDetails" class="bg-white p-6 rounded-lg shadow-lg">
+                <!-- Company Details will be loaded here dynamically -->
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-auto">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-400">&copy; 2024 Inclusive Workplace. All rights reserved.</p>
+        </div>
+    </footer>
+
+
+    <!-- JavaScript -->
+    <script>
+        const companyData = {
+            google: {
+                name: "Google",
+                description: "Google is dedicated to leveraging diversity to empower innovation and inclusion worldwide.",
+                requirements: [
+                    "Bachelor's or equivalent practical experience.",
+                    "Strong problem-solving and teamwork skills.",
+                    "Commitment to diversity and accessibility."
+                ],
+                applyLink: "https://careers.google.com"
+            },
+            providence: {
+                name: "Providence",
+                description: "Providence fosters accessible healthcare and inclusive opportunities for all.",
+                requirements: [
+                    "Experience in healthcare or related fields.",
+                    "Empathy and excellent communication skills.",
+                    "Advocacy for diversity in healthcare."
+                ],
+                applyLink: "https://www.providence.org/careers"
+            },
+            jpmorgan: {
+                name: "JP Morgan",
+                description: "JP Morgan is a leader in inclusive financial solutions, promoting equity in the workplace.",
+                requirements: [
+                    "Degree in finance, economics, or related fields.",
+                    "Analytical and interpersonal skills.",
+                    "Commitment to a diverse working environment."
+                ],
+                applyLink: "https://careers.jpmorgan.com"
+            }
+        };
+
+
+        function showDetails(companyKey) {
+            const company = companyData[companyKey];
+            if (company) {
+                const detailsSection = document.getElementById("detailsSection");
+                const companyDetails = document.getElementById("companyDetails");
+
+
+                companyDetails.innerHTML = `
+                    <h2 class="text-3xl font-bold text-blue-600 mb-4">${company.name}</h2>
+                    <p class="text-gray-700 mb-6">${company.description}</p>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Job Requirements:</h3>
+                    <ul class="list-disc pl-5 mb-6">
+                        ${company.requirements.map(req => `<li class="text-gray-700">${req}</li>`).join("")}
+                    </ul>
+                    <a href="${company.applyLink}" target="_blank" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Apply for Job</a>
+                `;
+
+
+                detailsSection.classList.remove("hidden");
+                detailsSection.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+

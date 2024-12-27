@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillSync - Job Platform for Persons with Disabilities</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+        .wave-bg {
+            background: linear-gradient(135deg, #003366 0%, #004080 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .wave-bg::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23fff' fill-opacity='1' d='M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") no-repeat;
+            background-size: cover;
+        }
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #FF5722;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+
+
+
+         #google_translate_element{
+            width: 200px;
+            height: 40px;
+            color: #efedec;
+            background-color: rgb(196, 143, 28);
+display: flex;
+text-align: center;
+         }
+    </style>
+</head>
+<body>
+    <div id="app" class="min-h-screen flex flex-col">
+     <!-- Header -->
+<!-- Header -->
+
+
+
+
+    <div id="translator">
+        <header class="bg-white shadow-md">
+            <nav class="container mx-auto px-4 py-3 flex items-center justify-between">
+                <div class="flex items-center">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='50'%3E%3Ctext x='10' y='35' font-family='Arial' font-size='32' font-weight='bold' fill='%23FF5722'%3ESkillSync%3C/text%3E%3C/svg%3E" alt="SkillSync Logo" class="h-16">
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#" class="text-gray-600 hover:text-blue-600" id="navHome" data-i18n="navHome">Home</a>
+                    <a href="#" class="text-gray-600 hover:text-blue-600" id="navJobs" data-i18n="navJobs">Jobs</a>
+                    <a href="#" class="text-gray-600 hover:text-blue-600" id="navTraining" data-i18n="navTraining">Training</a>
+                    <a href="#" class="text-gray-600 hover:text-blue-600" id="navResources" data-i18n="navResources">Resources</a>
+                    <a href="profile.html" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600" id="navProfile" data-i18n="navProfile">Profile</a>
+                    <button @click="showLoginModal = true" class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600" id="navLogin" data-i18n="navLogin">Login</button>
+                    <button @click="showRegisterModal = true" class="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600" id="navRegister" data-i18n="navRegister">Register</button>
+                    <div id="google_translate_element"> </div>
+                   
+                </div>
+       
+                <!-- Mobile Menu -->
+                <div v-if="mobileMenu" class="md:hidden bg-white border-t">
+                    <div class="container mx-auto px-4 py-2 flex flex-col space-y-2">
+                        <a href="#" class="text-gray-600 py-2" id="mobileNavHome" data-i18n="mobileNavHome">Home</a>
+                        <a href="#" class="text-gray-600 py-2" id="mobileNavJobs" data-i18n="mobileNavJobs">Jobs</a>
+                        <a href="#" class="text-gray-600 py-2" id="mobileNavTraining" data-i18n="mobileNavTraining">Training</a>
+                        <a href="#" class="text-gray-600 py-2" id="mobileNavResources" data-i18n="mobileNavResources">Resources</a>
+                        <button @click="showLoginModal = true" class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 w-full" id="mobileNavLogin" data-i18n="mobileNavLogin">Login</button>
+                        <button @click="showRegisterModal = true" class="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 w-full" id="mobileNavRegister" data-i18n="mobileNavRegister">Register</button>
+       
+                     
+                    </div>
+                </div>
+            </nav>
+        </header>
+       
+               
+       
+                <!-- Hero Section -->
+                <section class="wave-bg text-white py-16">
+                    <div class="container mx-auto px-4">
+                        <div class="max-w-3xl mx-auto text-center mb-12">
+                            <h1 class="text-4xl md:text-5xl font-bold mb-6">India's First AI-Powered Livelihood Platform</h1>
+                            <p class="text-xl mb-8">for Persons with Disabilities</p>
+                            <!-- Job Search Form -->
+                            <div class="bg-white rounded-lg p-4 shadow-lg">
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <select v-model="filters.disability" class="w-full p-3 rounded-lg border border-gray-300 text-gray-700">
+                                        <option value="">Select Disability Type</option>
+                                        <option value="physical">Physical Disability</option>
+                                        <option value="visual">Visual Impairment</option>
+                                        <option value="hearing">Hearing Impairment</option>
+                                        <option value="intellectual">Intellectual Disability</option>
+                                    </select>
+                                    <select v-model="filters.location" class="w-full p-3 rounded-lg border border-gray-300 text-gray-700">
+                                        <option value="">Select Location</option>
+                                        <option value="delhi">Delhi</option>
+                                        <option value="mumbai">Mumbai</option>
+                                        <option value="bangalore">Bangalore</option>
+                                        <option value="hyderabad">Hyderabad</option>
+                                    </select>
+                                    <select v-model="filters.qualification" class="w-full p-3 rounded-lg border border-gray-300 text-gray-700">
+                                        <option value="">Select Qualification</option>
+                                        <option value="10th">10th Pass</option>
+                                        <option value="12th">12th Pass</option>
+                                        <option value="graduate">Graduate</option>
+                                        <option value="postgraduate">Post Graduate</option>
+                                    </select>
+                                </div>
+                                <button @click="searchJobs" class="w-full md:w-auto mt-4 bg-orange-500 text-white px-8 py-3 rounded-lg hover:bg-orange-600 transition duration-300">
+                                    Find Jobs
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+       
+       
+       
+       
+                <!-- Features Section -->
+                <section class="py-16 bg-gray-50">
+                    <div class="container mx-auto px-4">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div class="text-center p-6 bg-white rounded-lg shadow-lg">
+                                <i class="bi bi-person-wheelchair text-5xl text-blue-600 mb-4"></i>
+                                <h3 class="text-xl font-semibold mb-2">Inclusive Workplace</h3>
+                                <p class="text-gray-600">Find jobs in companies committed to diversity and inclusion</p>                                                                 <a href="workspace.html" class="inline-block mt-4 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600">Explore Jobs</a>
+
+
+                            </div>
+                            <div class="text-center p-6 bg-white rounded-lg shadow-lg">
+                                <i class="bi bi-mortarboard text-5xl text-green-600 mb-4"></i>
+                                <h3 class="text-xl font-semibold mb-2">Skill Development</h3>
+                                <p class="text-gray-600">Enhance your career with certified courses, workshops, and vocational training tailored for your unique needs.</p>
+                                <ul class="text-gray-600 mt-4 text-left space-y-2">
+                                    <!-- <li><i class="bi bi-check-circle text-teal-500"></i> Attend live workshops on resume writing and interview prep</li>
+                                    <li><i class="bi bi-check-circle text-teal-500"></i> Learn assistive technology like screen readers</li>
+                                    <li><i class="bi bi-check-circle text-teal-500"></i> Earn certifications in data entry, graphic design, and IT skills</li>
+                                    <li><i class="bi bi-check-circle text-teal-500"></i> Explore internship opportunities with inclusive employers</li> -->
+                                </ul>
+                                <a href="training.html" class="inline-block mt-4 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600">Explore Training</a>
+                            </div>
+                           
+                            <div class="text-center p-6 bg-white rounded-lg shadow-lg">
+                                <i class="bi bi-people text-5xl text-orange-600 mb-4"></i>
+                                <h3 class="text-xl font-semibold mb-2">Supportive Community</h3>
+                                <p class="text-gray-600">Read about jobs reviews and tips from peers</p>
+                                <a href="blogs.html" class="inline-block mt-4 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600">Explore Blogs</a>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </section>
+       
+       
+       
+       
+                Login Modal
+                <div v-if="showLoginModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+                    <div class="bg-white rounded-lg p-6 max-w-md w-full">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-2xl font-bold">Login</h2>
+                            <button @click="showLoginModal = false" class="text-gray-500 hover:text-gray-700">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </div>
+                        <form @submit.prevent="login" class="space-y-4">
+                            <div>
+                                <label class="block text-gray-700 mb-2">Email</label>
+                                <input type="email" v-model="loginForm.email" class="w-full p-3 border rounded-lg" required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">Password</label>
+                                <input type="password" v-model="loginForm.password" class="w-full p-3 border rounded-lg" required>
+                            </div>
+                            <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">
+                                Login
+                            </button>
+                        </form>
+                    </div>
+                </div>
+       
+                <div v-if="showRegisterModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+                    <div class="bg-white rounded-lg p-6 max-w-md w-full">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-2xl font-bold">Register</h2>
+                            <button @click="showRegisterModal = false" class="text-gray-500 hover:text-gray-700">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </div>
+                        <form @submit.prevent="register" class="space-y-4">
+                            <div>
+                                <label class="block text-gray-700 mb-2">Name</label>
+                                <input type="text" v-model="registerForm.name" class="w-full p-3 border rounded-lg" required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">Email</label>
+                                <input type="email" v-model="registerForm.email" class="w-full p-3 border rounded-lg" required>
+                            </div>
+               
+                            <!-- User Type Selection -->
+                            <div>
+                                <label class="block text-gray-700 mb-2">Select User Type</label>
+                                <div class="flex items-center">
+                                    <input type="radio" v-model="registerForm.userType" value="jobSeeker" class="mr-2" required>
+                                    <label for="jobSeeker" class="mr-4">Job Seeker</label>
+                                    <input type="radio" v-model="registerForm.userType" value="company" class="mr-2" required>
+                                    <label for="company">Company</label>
+                                </div>
+                            </div>
+               
+                            <!-- Business Registration Number for Company -->
+                            <div v-if="registerForm.userType === 'company'">
+                                <label class="block text-gray-700 mb-2">Business Registration Number</label>
+                                <input type="text" v-model="registerForm.businessRegistrationNumber" class="w-full p-3 border rounded-lg" required>
+                            </div>
+               
+                            <!-- Disability Certificate for Job Seeker -->
+                            <div v-if="registerForm.userType === 'jobSeeker'">
+                                <label class="block text-gray-700 mb-2">Upload Disability Certificate (PDF)</label>
+                                <input type="file" v-model="registerForm.disabilityCertificate" accept=".pdf" class="w-full p-3 border rounded-lg" required>
+                            </div>
+               
+                            <div>
+                                <label class="block text-gray-700 mb-2">Password</label>
+                                <input type="password" v-model="registerForm.password" class="w-full p-3 border rounded-lg" required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">Confirm Password</label>
+                                <input type="password" v-model="registerForm.confirmPassword" class="w-full p-3 border rounded-lg" required>
+                            </div>
+               
+                            <button type="submit" class="w-full bg-teal-600 text-white py-3 rounded-lg hover:bg-teal-700">
+                                Register
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+                <!--  ABOUT SECTION NEWLY ADDED-->
+                <section class="py-16" style="background-color: #003366; color: white;">
+                    <div class="container mx-auto px-6 md:px-12 text-center">
+                        <h2 class="text-4xl font-extrabold text-white mb-8">About Us</h2>
+                        <p class="text-lg text-white mb-6">
+                            SkillSync is a platform dedicated to bridging the gap between individuals with disabilities and potential employers. We believe in providing equal opportunities for everyone and strive to empower people with disabilities by helping them find fulfilling jobs that match their skills and aspirations.
+                        </p>
+                        <p class="text-lg text-white">
+                            Our mission is to create a more inclusive workforce where people of all abilities are respected, supported, and given the opportunity to excel. We work with employers to ensure that they understand the value of a diverse workforce and provide them with the tools and resources to hire inclusively.
+                        </p>
+                    </div>
+                </section>
+       
+                <!-- Footer -->
+                <footer class="bg-gray-800 text-white py-8 mt-auto">
+                    <div class="container mx-auto px-4">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                            <div>
+                                <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                                <ul class="space-y-2">
+                                    <li><a href="#" class="text-gray-400 hover:text-white">Find Jobs</a></li>
+                                    <li><a href="#" class="text-gray-400 hover:text-white">Training Programs</a></li>
+                                    <li><a href="#" class="text-gray-400 hover:text-white">Success Stories</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-semibold mb-4">Contact Us</h4>
+                                <ul class="space-y-2">
+                                    <li class="text-gray-400"><i class="bi bi-envelope mr-2"></i> support@swarajability.org</li>
+                                    <li class="text-gray-400"><i class="bi bi-telephone mr-2"></i> +91 XXX XXX XXXX</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-semibold mb-4">Follow Us</h4>
+                                <div class="flex space-x-4">
+                                    <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="bi bi-facebook"></i></a>
+                                    <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="bi bi-twitter"></i></a>
+                                    <a href="https://www.linkedin.com/company/105785358/admin/dashboard/" class="text-gray-400 hover:text-white text-xl"><i class="bi bi-linkedin"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                            <p class="text-gray-400">&copy; 2024 Swaraj Ability. All rights reserved.</p>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+    </div>
+
+<!-- -----------------------------------JS-------------------------------- -->
+
+
+<script type="text/javascript" src="http://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
+<script type="text/javascript">
+        const { createApp } = Vue
+
+
+
+
+        createApp({
+            data() {
+                return {
+                    mobileMenu: false,
+                    showLoginModal: false,
+                    showRegisterModal: false,
+                    filters: {
+                        disability: '',
+                        location: '',
+                        qualification: ''
+                    },
+                    loginForm: {
+                        email: '',
+                        password: ''
+                    },
+                    registerForm: {
+                        name: '',
+                        email: '',
+                        password: '',
+                        confirmPassword: ''
+                    }
+                }
+            },
+
+            methods: {
+                searchJobs() {
+                    // Logic to handle job search based on filters
+                },
+                login() {
+                    // Handle login logic here
+                    console.log('Logging in with:', this.loginForm);
+                    this.showLoginModal = false;
+                },
+                register() {
+                    // Handle registration logic here
+                    console.log('Registering with:', this.registerForm);
+                    this.showRegisterModal = false;
+                }
+            }
+        }).mount('#app')
+
+    //====================================================================================
+   // Define translation object for different languages
+   
+ 
+    function loadGoogleTranslate() {
+      new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+    }
+  </script>
+ 
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
