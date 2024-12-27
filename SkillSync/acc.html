@@ -9,6 +9,7 @@
             font-family: Arial, sans-serif;
             line-height: 1.6;
             margin: 20px;
+            transition: all 0.3s ease;
         }
 
         .hidden {
@@ -21,6 +22,38 @@
             border: 1px solid #ccc;
             display: flex;
             gap: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        #options button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        #options button:hover {
+            background-color: #0056b3;
+        }
+
+        #accessibilityBtn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #28a745;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #accessibilityBtn:hover {
+            background-color: #218838;
         }
 
         .highContrastMode {
@@ -28,8 +61,34 @@
             color: white;
         }
 
+        .highContrastMode a {
+            color: yellow;
+        }
+
         .largeText {
             font-size: 1.5em;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            color: #555;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        a {
+            color: #007BFF;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #0056b3;
         }
     </style>
 </head>
@@ -43,6 +102,8 @@
     <div id="content">
         <h1>Welcome to My Web Page</h1>
         <p>Click the accessibility options to enhance your experience.</p>
+        <p class="name">John Doe</p>
+        <p class="name">Jane Smith</p>
         <button>Sample Button</button>
         <a href="#">Sample Link</a>
     </div>
@@ -89,6 +150,15 @@
             // Large Text
             largeTextBtn.addEventListener('click', () => {
                 content.classList.toggle('largeText');
+            });
+
+            // Voice Reader on Hover for Names
+            document.querySelectorAll('.name').forEach(nameElement => {
+                nameElement.addEventListener('mouseenter', () => {
+                    const text = nameElement.textContent;
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    speechSynthesis.speak(utterance);
+                });
             });
         });
     </script>
