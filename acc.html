@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessibility Features</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #options {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            display: flex;
+            gap: 10px;
+        }
+
+        .highContrastMode {
+            background-color: black;
+            color: white;
+        }
+
+        .largeText {
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <button id="accessibilityBtn">Accessibility Options</button>
+    <div id="options" class="hidden">
+        <button id="voiceControl">Voice Control</button>
+        <button id="highContrast">High Contrast</button>
+        <button id="largeText">Large Text</button>
+    </div>
+    <div id="content">
+        <h1>Welcome to My Web Page</h1>
+        <p>Click the accessibility options to enhance your experience.</p>
+        <button>Sample Button</button>
+        <a href="#">Sample Link</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const accessibilityBtn = document.getElementById('accessibilityBtn');
+            const options = document.getElementById('options');
+            const voiceControlBtn = document.getElementById('voiceControl');
+            const highContrastBtn = document.getElementById('highContrast');
+            const largeTextBtn = document.getElementById('largeText');
+            const content = document.getElementById('content');
+
+            let voiceControlActive = false;
+
+            // Toggle options menu
+            accessibilityBtn.addEventListener('click', () => {
+                options.classList.toggle('hidden');
+            });
+
+            // Voice Control
+            voiceControlBtn.addEventListener('click', () => {
+                voiceControlActive = !voiceControlActive;
+                if (voiceControlActive) {
+                    document.body.addEventListener('click', voiceHandler);
+                    alert('Voice Control Activated');
+                } else {
+                    document.body.removeEventListener('click', voiceHandler);
+                    alert('Voice Control Deactivated');
+                }
+            });
+
+            function voiceHandler(event) {
+                const text = event.target.innerText || event.target.alt || 'Unknown element';
+                const utterance = new SpeechSynthesisUtterance(text);
+                speechSynthesis.speak(utterance);
+            }
+
+            // High Contrast
+            highContrastBtn.addEventListener('click', () => {
+                document.body.classList.toggle('highContrastMode');
+            });
+
+            // Large Text
+            largeTextBtn.addEventListener('click', () => {
+                content.classList.toggle('largeText');
+            });
+        });
+    </script>
+</body>
+</html>

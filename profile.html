@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Display After Registration</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div id="app" class="min-h-screen flex flex-col items-center py-10">
+
+        <!-- Profile Icon / Placeholder -->
+        <div v-if="!isRegistered" class="text-center">
+            <i class="bi bi-person-circle text-6xl text-gray-600 mb-4"></i>
+            <h2 class="text-2xl font-semibold text-gray-700 mb-2">Create Your Profile</h2>
+            <button @click="showRegisterModal = true" class="bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600">
+                Register Now
+            </button>
+        </div>
+
+        <!-- Registered Profile -->
+        <div v-if="isRegistered" class="text-center bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+            <img :src="user.profilePicture" alt="Profile Picture" class="w-24 h-24 rounded-full mx-auto mb-4">
+            <h3 class="text-2xl font-semibold text-gray-700 mb-2">{{ user.name }}</h3>
+            <p class="text-gray-600 mb-1">Email: {{ user.email }}</p>
+            <p class="text-gray-600 mb-1">Bio: {{ user.bio }}</p>
+            <p class="text-gray-600 mb-1">Disability: {{ user.disability }}</p>
+        </div>
+
+        <!-- Register Modal -->
+        <div v-if="showRegisterModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+                <h2 class="text-2xl font-semibold text-gray-700 mb-4">Register</h2>
+                <input type="text" v-model="register.name" placeholder="Name" class="w-full p-2 mb-4 border rounded-lg" />
+                <input type="email" v-model="register.email" placeholder="Email" class="w-full p-2 mb-4 border rounded-lg" />
+                <textarea v-model="register.bio" placeholder="Bio" class="w-full p-2 mb-4 border rounded-lg" rows="3"></textarea>
+                <select v-model="register.disability" class="w-full p-2 mb-4 border rounded-lg">
+                    <option value="">Select Disability</option>
+                    <option value="Physical Disability">Physical Disability</option>
+                    <option value="Visual Impairment">Visual Impairment</option>
+                    <option value="Hearing Impairment">Hearing Impairment</option>
+                    <option value="Intellectual Disability">Intellectual Disability</option>
+                </select>
+                <input type="file" @change="onFileChange" class="w-full p-2 mb-4 border rounded-lg" />
+                <div class="flex justify-between">
+                    <button @click="submitRegister" class="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600">Register</button>
+                    <button @click="showRegisterModal = false" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    showRegisterModal: false,
+                    isRegistered: false,
+                    user: {
+                        name: '',
+                        email: '',
+                        bio: '',
+                        disability: '',
+                        profilePicture: ''
+                    },
+                    register: {
+                        name: '',
+                        email: '',
+                        bio: '',
+                        disability: '',
+                        profilePicture: null
+                    }
+                };
+            },
+            methods: {
+                onFileChange(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = () => {
+                            this.register.profilePicture = reader.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                },
+                submitRegister() {
+                    // Save user data after registration
+                    this.user = { ...this.register };
+                    this.isRegistered = true;
+                    this.showRegisterModal = false;
+                    // Reset registration form
+                    this.register = {
+                        name: '',
+                        email: '',
+                        bio: '',
+                        disability: '',
+                        profilePicture: null
+                    };
+                }
+            }
+        });
+        app.mount('#app');
+    </script>
+
+</body>
+</html>
